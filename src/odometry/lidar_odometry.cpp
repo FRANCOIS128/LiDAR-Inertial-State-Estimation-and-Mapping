@@ -35,8 +35,8 @@ Pose LidarOdometry::process_frame(const LidarFrame& frame) {
 
     last_cloud_ = frame.cloud;
 
-    // If too few pairs, I cannot trust ICP, keep last pose.
-    // If not converge but we already have a T, still use it.
+    // Too few correspondences: keep the last pose.
+    // If ICP did not fully converge but T is available, still use it.
     if (icp.correspondences < 3 || icp.iterations == 0) {
         last_update_ok_ = false;
         failed_updates_++;

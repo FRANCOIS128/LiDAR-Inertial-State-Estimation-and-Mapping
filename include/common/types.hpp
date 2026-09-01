@@ -33,7 +33,7 @@ struct TrajectoryEntry {
     Eigen::Quaterniond orientation = Eigen::Quaterniond::Identity();
 };
 
-// IMU state. bias changes slow, so I also put bias here.
+// IMU navigation state, including accelerometer and gyro bias.
 struct NavState {
     Eigen::Vector3d position = Eigen::Vector3d::Zero();
     Eigen::Vector3d velocity = Eigen::Vector3d::Zero();

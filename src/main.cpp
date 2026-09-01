@@ -56,8 +56,8 @@ int main(int argc, char** argv) {
     lio::PoseEkf ekf;
     lio::Mapper mapper(0.12, 4);
 
-    // First pose from gt, so map is in the room frame.
-    // Velocity I set to 0, not from gt.
+    // First pose from ground truth so the map is in the room frame.
+    // Initial velocity is zero.
     const lio::TrajectoryEntry& start = dataset.ground_truth.front();
     lio::Pose init_pose;
     init_pose.position = start.position;

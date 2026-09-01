@@ -49,7 +49,7 @@ def main():
     err = p_est - p_gt_i
     dist = np.linalg.norm(err, axis=1)
     rmse = float(np.sqrt(np.mean(dist**2)))
-    ate = rmse  # same world frame, I do not do Sim(3) align
+    ate = rmse  # same world frame, no Sim(3) alignment
     mae = float(np.mean(dist))
     final = float(dist[-1]) if len(dist) else float("nan")
 

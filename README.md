@@ -68,13 +68,19 @@ update:   y = z_lidar - h(x)
 
 ## Result
 
-The demo is a circle path in a room.
+The demo is a synthetic circle path in a simulated room, not a real robot dataset.
 
 ATE RMSE: 0.014 m
 
 ![Trajectory](results/trajectory.png)
 
 ![Map](results/map.png)
+
+## Limitations
+
+- EKF uses a simplified discrete error-state model. Some ESKF coupling terms are not implemented.
+- Odometry is scan-to-scan, so drift can grow. No loop closure.
+- Numbers above are from synthetic data.
 
 ## Build and run
 

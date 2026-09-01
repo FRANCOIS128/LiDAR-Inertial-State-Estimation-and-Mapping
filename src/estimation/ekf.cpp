@@ -6,7 +6,7 @@ namespace lio {
 
 PoseEkf::PoseEkf(EkfConfig config)
     : config_(config), propagator_(config.gravity) {
-    // P start not zero. Bias I set more sure than position.
+    // Initialize covariance with lower uncertainty on sensor biases.
     P_ = Mat15::Identity();
     P_.block<3, 3>(0, 0) *= 0.1;
     P_.block<3, 3>(3, 3) *= 0.1;
@@ -36,7 +36,7 @@ void PoseEkf::predict(const ImuMeasurement& imu, double dt) {
     const Eigen::Vector3d acc = imu.acceleration - s.accel_bias;
 
     Mat15 F = Mat15::Identity();
-    // Simple discrete F. Full ESKF has more coupling terms, I skip some.
+    // Simplified discrete error-state transition model.
     F.block<3, 3>(0, 3) = Eigen::Matrix3d::Identity() * dt;          // dp / dv
     F.block<3, 3>(3, 6) = -R * skew(acc) * dt;                       // dv / dtheta
     F.block<3, 3>(3, 9) = -R * dt;                                   // dv / dba
