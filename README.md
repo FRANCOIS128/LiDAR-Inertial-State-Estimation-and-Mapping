@@ -2,7 +2,35 @@
 
 This is our group project. We write a C++ program for lidar-inertial odometry and mapping.
 
-The steps are: downsample lidar points, match two scans with point-to-point ICP, integrate IMU, fuse with EKF, then put points into a map.
+## What we implemented
+
+- point cloud preprocess: range filter and voxel downsample
+- point-to-point ICP (KD-tree nearest neighbour + SVD)
+- scan-to-scan lidar odometry
+- IMU propagation
+- simple error-state EKF
+- global voxel map
+- trajectory plot and RMSE
+
+## Architecture
+
+```mermaid
+flowchart LR
+    L[LiDAR] --> F[range filter + voxel]
+    F --> ICP[point-to-point ICP]
+    ICP --> LO[lidar odometry]
+    IMU[IMU] --> PROP[IMU propagation]
+    LO --> EKF
+    PROP --> EKF[EKF]
+    EKF --> T[trajectory]
+    EKF --> M[map]
+```
+
+LiDAR path: filter points, then ICP match scan k to scan k-1. Relative pose is chained, this is lidar odometry.
+
+IMU path: integrate gyro and accel, predict pose / velocity / bias.
+
+EKF: IMU predict, lidar pose update. Fused pose is used to put points into the map.
 
 ## Method
 
@@ -29,7 +57,14 @@ v = v + a * dt
 p = p + v * dt
 ```
 
-EKF uses IMU to predict, and lidar pose to update.
+EKF error state is 15 dim: dp, dv, dtheta, dba, dbg.
+
+```
+predict:  x = f(x, imu),  P = F P F^T + Q
+update:   y = z_lidar - h(x)
+          K = P H^T (H P H^T + R)^{-1}
+          x = x + K y
+```
 
 ## Result
 
