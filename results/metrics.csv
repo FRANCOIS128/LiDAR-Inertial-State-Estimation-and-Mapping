@@ -1,0 +1,6 @@
+metric,value
+rmse_m,0.014117
+ate_rmse_m,0.014117
+mae_m,0.012731
+final_error_m,0.014203
+samples,81

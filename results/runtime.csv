@@ -1,0 +1,10 @@
+metric,value
+lidar_frames,81
+imu_samples,801
+mean_icp_ms,104.007
+mean_frame_ms,103.736
+fps,9.63842
+icp_failures,0
+icp_unconverged,11
+map_points,41006
+total_seconds,8.40386
